@@ -8,7 +8,6 @@ import {FormsModule} from '@angular/forms'
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import {HomeComponent} from './home/home.component'
 import {RegisterComponent} from './register/register.component'
-import {MemberDetailComponent} from './members/member-detail/member-detail.component'
 import {MemberListComponent} from './members/member-list/member-list.component'
 import {ListsComponent} from './lists/lists.component'
 import {MessagesComponent} from './messages/messages.component'
@@ -19,6 +18,7 @@ import {MemberCardComponent} from './members/member-card/member-card.component'
 import {ErrorInterceptor} from "./_interceptors/error.interceptor";
 import {JwtInterceptor} from "./_interceptors/jwt.interceptor";
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import {LoadingInterceptor} from "./_interceptors/loading.interceptor";
 
 @NgModule({
   declarations: [
@@ -45,6 +45,7 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
   ],
   bootstrap: [AppComponent],
 })
