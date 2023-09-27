@@ -9,7 +9,7 @@
   </div>
   <div class="col-4">
     <div class="card">
-      <img src="{{member.photoUrl || './assets/user.png'}}" alt="{{member.knownAs}}"
+      <img ngSrc="{{member.photoUrl || './assets/user.png'}}" alt="{{member.knownAs}}"
            class="card-img-top img-thumbnail">
       <div class="card-body">
         <div>
@@ -60,7 +60,7 @@
 
       </tab>
       <tab heading="Edit Photos">
-        <p>Photo edit will go here</p>
+        <socialSync-photo-editor [member]="member"></socialSync-photo-editor>
       </tab>
     </tabset>
   </div>
