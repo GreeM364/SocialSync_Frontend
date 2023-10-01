@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core'
 import {Member} from '../../_models/member'
 import {MembersService} from '../../_services/members.service'
 import {Pagination} from '../../_models/pagination'
+import {UserParams} from '../../_models/userParams'
 
 @Component({
   selector: 'socialSync-member-list',
@@ -11,29 +12,41 @@ import {Pagination} from '../../_models/pagination'
 export class MemberListComponent implements OnInit {
   members: Member[] = []
   pagination: Pagination | undefined
-  pageNumber = 1
-  pageSize = 5
+  userParams: UserParams | undefined
+  genderList = [
+    {value: 'male', display: 'Males'},
+    {value: 'female', display: 'Females'},
+  ]
 
-  constructor(private memberService: MembersService) {}
+  constructor(private memberService: MembersService) {
+    this.userParams = this.memberService.getUserParams()
+  }
 
   ngOnInit(): void {
     this.loadMembers()
   }
 
   loadMembers() {
-    this.memberService.getMembers(this.pageNumber, this.pageSize).subscribe({
-      next: (response) => {
-        if (response.result && response.pagination) {
-          this.members = response.result
-          this.pagination = response.pagination
-        }
-      },
-    })
+    if (this.userParams) {
+      this.memberService.getMembers(this.userParams).subscribe({
+        next: (response) => {
+          if (response.result && response.pagination) {
+            this.members = response.result
+            this.pagination = response.pagination
+          }
+        },
+      })
+    }
+  }
+
+  resetFilters() {
+    this.userParams = this.memberService.resetUserParams();
+    this.loadMembers();
   }
 
   pageChanged(event: any) {
-    if (this.pageNumber !== event.page) {
-      this.pageNumber = event.page
+    if (this.userParams && this.userParams?.pageNumber !== event.page) {
+      this.userParams.pageNumber = event.page
       this.loadMembers()
     }
   }
