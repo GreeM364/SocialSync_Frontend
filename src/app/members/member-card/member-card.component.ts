@@ -1,21 +1,26 @@
-import {Component, Input} from '@angular/core';
-import {Member} from "../../_models/member";
-import {MembersService} from "../../_services/members.service";
-import {ToastrService} from "ngx-toastr";
+import {Component, Input} from '@angular/core'
+import {Member} from '../../_models/member'
+import {MembersService} from '../../_services/members.service'
+import {ToastrService} from 'ngx-toastr'
+import {PresenceService} from '../../_services/presence.service'
 
 @Component({
   selector: 'socialSync-member-card',
   templateUrl: './member-card.component.html',
-  styleUrls: ['./member-card.component.css']
+  styleUrls: ['./member-card.component.css'],
 })
 export class MemberCardComponent {
-  @Input() member: Member | undefined;
+  @Input() member: Member | undefined
 
-  constructor(private memberService: MembersService, private toastr: ToastrService) { }
+  constructor(
+    private memberService: MembersService,
+    private toastr: ToastrService,
+    public presenceService: PresenceService,
+  ) {}
 
   addLike(member: Member) {
     this.memberService.addLike(member.userName).subscribe({
-      next: () => this.toastr.success('You have liked ' + member.knownAs)
+      next: () => this.toastr.success('You have liked ' + member.knownAs),
     })
   }
 }
