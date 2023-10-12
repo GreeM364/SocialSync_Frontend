@@ -1,7 +1,6 @@
 import {Component} from '@angular/core'
 import {AccountService} from '../_services/account.service'
 import {Router} from '@angular/router'
-import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'socialSync-nav',
@@ -14,12 +13,14 @@ export class NavComponent {
   constructor(
     public accountService: AccountService,
     private router: Router,
-    private toastr: ToastrService,
   ) {}
 
   login() {
     this.accountService.login(this.model).subscribe({
-      next: _ => this.router.navigateByUrl('/members')
+      next: (_) => {
+        this.router.navigateByUrl('/members')
+        this.model = {}
+      },
     })
   }
 
